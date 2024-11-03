@@ -1,4 +1,4 @@
-all_book = Book.objects.all()
+all_book = Book.objects.get(title='1984')
 -> The above command is used to retrieve all the book instance created.
 
 for book in all_book:
