@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-
+# models creation
 class Author(models.Model):
     name = models.CharField(max_length=100)
 
