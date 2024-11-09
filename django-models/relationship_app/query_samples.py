@@ -7,7 +7,7 @@ def get_books_by_author(author_name):
 
 # Query to get all books in a specific library
 def get_books_in_library(library_id):
-    library = Library.objects.get(id=library_id)
+    library = Library.objects.get(name=library_name)
     books = library.books.all()  # 'books' is the related name used in Library model
     return books
 
