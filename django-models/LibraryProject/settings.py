@@ -15,7 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-LOGIN_REDIRECT_URL = 'home'  # Replace 'home' with the name of the view or URL you want users redirected to after login
+LOGIN_REDIRECT_URL = 'list_books'  # Replace 'home' with the name of the view or URL you want users redirected to after login
 LOGOUT_REDIRECT_URL = 'login'  # Redirect users to login page after logout
 
 # Quick-start development settings - unsuitable for production
