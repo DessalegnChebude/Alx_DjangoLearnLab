@@ -38,3 +38,6 @@ def register(request):
     else:
         form = UserCreationForm()
     return render (request, 'relationship_app/register.html', {'form': form})
+
+    # Set Up Role-Based Views
+    
