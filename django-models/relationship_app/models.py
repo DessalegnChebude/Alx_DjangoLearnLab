@@ -15,9 +15,17 @@ def __str__(self):
 class Book(models.Model):
     title = models.CharField(max_length=50)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
+# Extend the Book Model with Custom Permissions
+# Add custom permissions in the Book model by defining a Meta class with a permissions attribute.
+    class Meta:
+        permissions = [
+            ("can_add_book", "Can add book"),
+            ("can_change_book", "can change book"),
+            ("can_delete_book", "can delete book"),
+        ]
 
-def __str__(self):
-    return self.name
+    def __str__(self):
+        return self.name
 
 class Library(models.Model):
     name = models.CharField(max_length=10)
@@ -56,4 +64,4 @@ class UserProfile(models.Model):
 
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
-        instance.userProfile.save()
+        instance.userprofile.save()
