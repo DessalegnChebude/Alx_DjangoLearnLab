@@ -27,6 +27,7 @@ def get_context_data(self, **kwargs):
     context['books'] = self.objects.books.all()
     return context
 
+# creating user registration form views
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
