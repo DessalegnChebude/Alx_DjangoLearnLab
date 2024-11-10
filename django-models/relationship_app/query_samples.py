@@ -24,6 +24,7 @@ def get_books_in_library(library_id):
 def get_librarian_for_library(library_id):
     try:
         # Retrieve the Library object
+        librarian = Librarian.objects.get(library_id)
         library =  Library.objects.get(name=library_name)
         # library = Library.objects.get(id=library_id)
         # Access the related Librarian using the OneToOneField relationship
