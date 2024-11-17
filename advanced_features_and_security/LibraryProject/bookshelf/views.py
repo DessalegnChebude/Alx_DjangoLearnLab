@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render
-
+from .forms import ExampleForm
 # Create your views here.
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import get_object_or_404, render, redirect
@@ -50,3 +50,19 @@ def book_delete(request, pk):
         return redirect('document_list')
     return render(request, 'bookshelf/document_confirm_delete.html', {'document': document})
 
+from django.shortcuts import render, redirect
+from .forms import ExampleForm  # Ensure this import is present
+from django.http import HttpResponse
+
+# Example view for handling a form
+def example_view(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Handle the form data (e.g., save it to the database or process it)
+            return HttpResponse('Form submitted successfully!')
+        else:
+            return render(request, 'bookshelf/form_example.html', {'form': form})
+    else:
+        form = ExampleForm()  # Initialize an empty form
+    return render(request, 'bookshelf/form_example.html', {'form': form})
