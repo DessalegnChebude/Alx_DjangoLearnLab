@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 LOGIN_REDIRECT_URL = 'list_books'  # Replace 'home' with the name of the view or URL you want users redirected to after login
 LOGOUT_REDIRECT_URL = 'login'  # Redirect users to login page after logout
 
-AUTH_USER_MODEL = 'bookshelf.CustomeUser'
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
