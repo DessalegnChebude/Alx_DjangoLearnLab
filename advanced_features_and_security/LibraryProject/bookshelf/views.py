@@ -9,6 +9,15 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseForbidden
 from .models import Document
 
+from django.http import HttpResponse
+
+def my_view(request):
+    response = HttpResponse('Hello, world!')
+    response['Content-Security-Policy'] = "default-src 'self';"
+    return response
+
+
+
 @permission_required('bookshelf.can_view', raise_exception=True)
 def book_list(request):
     documents = Document.objects.all()

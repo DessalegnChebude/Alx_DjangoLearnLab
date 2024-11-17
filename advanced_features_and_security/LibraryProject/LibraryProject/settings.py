@@ -53,7 +53,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django-csp.middleware.CSPMiddleware',
 ]
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", 'cdn.jsdelivr.net', 'code.jquery.com')
+CSP_STYLE_SRC = ("'self'", 'cdn.jsdelivr.net')
 
 ROOT_URLCONF = 'LibraryProject.urls'
 
@@ -127,3 +131,27 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Set DEBUG to False in production to prevent detailed error messages
+DEBUG = False
+
+# Add browser-side protections to mitigate XSS attacks
+SECURE_BROWSER_XSS_FILTER = True
+
+# Prevent clickjacking attacks by denying the embedding of your site in an iframe
+X_FRAME_OPTIONS = 'DENY'
+
+# Prevent content sniffing by the browser, ensuring the correct content type is set
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Ensure cookies are sent only over HTTPS, preventing cookie theft over HTTP
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Force secure connections (HTTPS) for the entire site
+SECURE_SSL_REDIRECT = True
+
+# Set a custom CSP to reduce the risk of XSS attacks
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", 'cdn.jsdelivr.net', 'code.jquery.com')
+CSP_STYLE_SRC = ("'self'", 'cdn.jsdelivr.net')
