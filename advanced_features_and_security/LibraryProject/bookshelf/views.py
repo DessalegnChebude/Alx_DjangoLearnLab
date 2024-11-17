@@ -66,3 +66,12 @@ def example_view(request):
     else:
         form = ExampleForm()  # Initialize an empty form
     return render(request, 'bookshelf/form_example.html', {'form': form})
+
+# bookshelf/views.py
+from django.shortcuts import render
+from .models import Book
+
+def book_list(request):
+    books = Book.objects.all()  # Fetch all books from the database
+    return render(request, 'bookshelf/book_list.html', {'books': books})
+
