@@ -1,5 +1,5 @@
 from django import forms
 
-class BookForm(forms.Form):
+class ExampleForm(forms.Form):
     title = forms.CharField(max_length=100)
     author = forms.CharField(max_length=100)
