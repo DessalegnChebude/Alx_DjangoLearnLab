@@ -155,3 +155,34 @@ SECURE_SSL_REDIRECT = True
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_SCRIPT_SRC = ("'self'", 'cdn.jsdelivr.net', 'code.jquery.com')
 CSP_STYLE_SRC = ("'self'", 'cdn.jsdelivr.net')
+
+
+# Redirect all HTTP requests to HTTPS
+SECURE_SSL_REDIRECT = True
+
+# Enable HTTP Strict Transport Security (HSTS) for one year (31536000 seconds)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+
+# Include subdomains in the HSTS policy
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+# Allow preloading of the HSTS policy (important for long-term security)
+SECURE_HSTS_PRELOAD = True
+
+
+# Ensure session cookies are only sent over HTTPS
+SESSION_COOKIE_SECURE = True
+
+# Ensure CSRF cookies are only sent over HTTPS
+CSRF_COOKIE_SECURE = True
+
+
+
+# Prevent the site from being framed (clickjacking protection)
+X_FRAME_OPTIONS = 'DENY'
+
+# Prevent browsers from sniffing the MIME type of a response
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enable browser XSS filtering
+SECURE_BROWSER_XSS_FILTER = True
