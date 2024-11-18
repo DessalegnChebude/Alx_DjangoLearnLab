@@ -12,25 +12,22 @@ class BookAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Book, BookAdmin)
 # admin.site.register(Product)
+# bookshelf/admin.py
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
-    """Custom admin for CustomUser."""
+    """
+    Custom admin for the CustomUser model.
+    """
     model = CustomUser
-    list_display = ('email', 'username', 'is_staff', 'is_active', 'date_of_birth')
-    list_filter = ('is_staff', 'is_active')
-    fieldsets = (
-        (None, {'fields': ('email', 'username', 'password', 'profile_photo', 'date_of_birth')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+    fieldsets = UserAdmin.fieldsets + (
+        (None, {'fields': ('date_of_birth', 'profile_photo')}),
     )
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'username', 'password1', 'password2', 'is_staff', 'is_active')}
-        ),
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        (None, {'fields': ('date_of_birth', 'profile_photo')}),
     )
-    search_fields = ('email', 'username')
-    ordering = ('email',)
+    list_display = ['username', 'email', 'date_of_birth', 'is_staff']
 
 admin.site.register(CustomUser, CustomUserAdmin)
-
