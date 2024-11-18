@@ -17,6 +17,6 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
-class CustomeUser(AbstractUser):
+class CustomUser(AbstractUser):
     date_of_birth = models.DateField()
     profile_photo = models.ImageField()
