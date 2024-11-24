@@ -23,5 +23,5 @@ from api import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),
+    path('api/', include('api.urls')),    # The url access will be "http://127.0.0.1:8000/api/books/""
 ]
