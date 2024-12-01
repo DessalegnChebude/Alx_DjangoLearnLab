@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from .serializers import BookSerializer, AuthorSerializer
 from .models import Book, Author
-from rest_framework import generics, filters
-from rest_framework import status
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework import status, generics
 from rest_framework.response import Response
-from rest_framework.views import APIView
+# from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated 
 from .permission import IsAuthorOrReadOnly
+from django_filters import rest_framework
 
 # Create your views here.
 
@@ -42,20 +43,23 @@ class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly] # Allow read-only access
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [rest_framework.DjangoFilterBackend, SearchFilter,OrderingFilter]
+    filterset_fields = ['title', 'author', 'publication_year'] # Enable filtering
     search_fields = ['title', 'author__name'] # This will allow to filter books by their title and author name.
+    ordering_fields = ['title', 'publication_year'] #Allow ordering by those mentioned fields
+    ordering = ['title']  # Default ordering
     
-    def get_queryset(self):
-        """
-        Optionally restricts the returned books to a given author,
-        by filtering against an `author_id` query parameter in the URL.
-        """
-        queryset = Book.objects.all()
-        # Access query_params from the request
-        author_id = self.request.query_params.get('author_id', None)
-        if author_id is not None:
-            queryset = queryset.filter(author__id=author_id)
-        return queryset
+    # def get_queryset(self):
+    #     """
+    #     Optionally restricts the returned books to a given author,
+    #     by filtering against an `author_id` query parameter in the URL.
+    #     """
+    #     queryset = Book.objects.all()
+    #     # Access query_params from the request
+    #     author_id = self.request.query_params.get('author_id', None)
+    #     if author_id is not None:
+    #         queryset = queryset.filter(author__id=author_id)
+    #     return queryset
     
 class BookDetailView(generics.RetrieveAPIView):
     # view to retrive a single book by Id
