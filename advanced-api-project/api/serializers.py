@@ -5,7 +5,7 @@ from rest_framework import serializers
 class BookSerializer(serializers.ModelSerializer):
     # The BookSerializer serializes all fields of the Book model.
     class Meta:
-        models = Book
+        model = Book
         fields = '__all__'
         
     # Custom validation to ensure the publication year is not in the future.

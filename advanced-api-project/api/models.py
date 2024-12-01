@@ -7,7 +7,7 @@ class Author(models.Model):
     name = models.CharField(max_length=200) 
     
     def __str__(self):
-        return self
+        return f"{self.name}"
     
     
 # The book model is used to create the books instance of the app
@@ -24,4 +24,4 @@ class Book(models.Model):
     """
     
 def __str__(self):
-    return f"{self.title} by {self.author} ({self.publication_year})"
+    return f"{self.title} by {self.author} {self.publication_year}"
