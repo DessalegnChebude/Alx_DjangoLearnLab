@@ -36,14 +36,12 @@ class AuthorDetail(generics.RetrieveUpdateDestroyAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    
-# 
-class BookList(generics.ListCreateAPIView):
-    # this class is used to View a list of all books and create a new book.
+
+class BookListView(generics.ListAPIView):
+    # view to list all books
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
+    permission_classes = [permissions.AllowAny] # Allow read-only access
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'author__name'] # This will allow to filter books by their title and author name.
     
@@ -59,18 +57,32 @@ class BookList(generics.ListCreateAPIView):
             queryset = queryset.filter(author__id=author_id)
         return queryset
     
-    def create_book(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
-class BookDetail(generics.RetrieveUpdateDestroyAPIView):
-    # This BookDetail class view used to retrieve, update, or delete a book instance.
+class BookDetailView(generics.RetrieveAPIView):
+    # view to retrive a single book by Id
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
+    permission_classes = [permissions.AllowAny] # Read-only access
     
+class BookCreateView(generics.CreateAPIView):
+    # view to create a new book.
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated] # Restrict to authenticated users
+    
+    def perform_create(self, serializer):
+        # Custome method to perform the creattion of a book instance
+        serializer.save()
+        
+class BookUpdateView(generics.UpdateAPIView):
+    # view to update an existing book
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]  # Restrict to authenticated users
+    
+    def perform_update(self, serializer):
+        # custom method to perform the update of the book instance
+        serializer.save()
+        # custom update 
     def update_book(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
         book = self.get_object()
@@ -78,4 +90,11 @@ class BookDetail(generics.RetrieveUpdateDestroyAPIView):
         serializer.is_valid(raise_excepption=True)
         self.perform_update(serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
+    
+class BookDeleteView(generics.DestroyAPIView):
+    # view to delete a book
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]  # restrict to authenticated users.
+    
+    
