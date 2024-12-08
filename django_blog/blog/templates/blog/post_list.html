@@ -1,0 +1,15 @@
+<!-- blog/templates/blog/post_list.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Blog Posts</h1>
+<a href="{% url 'post-create' %}">Create New Post</a>
+<ul>
+    {% for post in posts %}
+    <li>
+        <a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a> - {{ post.author }} on {{ post.published_date }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
