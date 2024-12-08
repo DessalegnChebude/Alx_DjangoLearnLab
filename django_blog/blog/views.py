@@ -4,10 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CustomUserCreationForm
 from django.views import View
+from django.db.models import Q
 
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 from .forms import PostForm, CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
@@ -132,3 +133,21 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, View):
         def test_func(self):
             comment = self.get_object()
             return self.request.user == comment.author
+        
+
+def search(request):
+    query = request.GET.get('q')
+    posts = Post.objects.filter(
+        Q(title_icontains=query) | 
+        Q(content_icontains = query) | 
+        Q(tags__name__icontains=query)
+    ).distinct() # distinct used to avoid duplicate results from multiple tags
+    return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
+
+class TaggedPostListView(ListView):
+    model = Post
+    template_name = 'blog/tagged_posts.html'
+
+    def get_queryset(self):
+        tag_name = self.kwargs['tag_name']
+        return Post.objects.filter(tags__name__iexact=tag_name)

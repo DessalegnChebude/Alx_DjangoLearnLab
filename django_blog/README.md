@@ -44,3 +44,20 @@ This system allows users to comment on blog posts. Authenticated users can creat
 ## Permissions
 - Only authenticated users can add comments.
 - Only comment authors can edit or delete their comments.
+
+
+# Tagging and Search Functionality in Django Blog
+
+## Overview
+This feature allows users to tag their blog posts and search for content easily, enhancing navigation.
+
+## Adding Tags to Posts
+- When creating or editing a post, you can select existing tags or create new ones.
+- Tags are displayed on the post detail page and are linked to a filtered view of related posts.
+
+## Searching for Posts
+- Use the search bar at the top of the page to search for posts by title, content, or tags.
+- The results will display all matching posts.
+
+## Viewing Posts by Tag
+- Clicking on a tag will redirect you to a list of all posts that share that tag.
