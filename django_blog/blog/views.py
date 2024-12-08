@@ -138,8 +138,8 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, View):
 def search(request):
     query = request.GET.get('q')
     posts = Post.objects.filter(
-        Q(title_icontains=query) | 
-        Q(content_icontains = query) | 
+        Q(title__icontains=query) | 
+        Q(content__icontains = query) | 
         Q(tags__name__icontains=query)
     ).distinct() # distinct used to avoid duplicate results from multiple tags
     return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
