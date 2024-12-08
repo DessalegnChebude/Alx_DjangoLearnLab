@@ -21,3 +21,26 @@ This project allows users to create, read, update, and delete blog posts. Only a
 ### Permissions
 - Only authenticated users can create posts.
 - Only the author of a post can edit or delete it.
+
+
+# Comment Functionality in Django Blog
+
+## Overview
+This system allows users to comment on blog posts. Authenticated users can create, edit, and delete their comments.
+
+## Adding a Comment
+1. Navigate to the post's detail page.
+2. Fill in the comment form and click "Post Comment."
+3. Your comment will appear below the post.
+
+## Editing a Comment
+1. If you authored a comment, you can edit it.
+2. Click the "Edit" link next to your comment, update your content, and submit.
+
+## Deleting a Comment
+1. If you authored a comment, you can delete it.
+2. Click the "Delete" button next to your comment for removal.
+
+## Permissions
+- Only authenticated users can add comments.
+- Only comment authors can edit or delete their comments.

@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CustomUserCreationForm
+from django.views import View
 
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post
-from .forms import PostForm
+from .models import Post, Comment
+from .forms import PostForm, CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 # Create your views here.
@@ -92,3 +93,42 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+    
+class CommentCreateView(LoginRequiredMixin, View):
+    def post(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            Comment = form.save(commit=False)
+            Comment.post = post
+            Comment.author = request.user
+            Comment.save()
+        
+        return redirect('post-detail', pk=post_id)
+    
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def get(self, request, post_id, comment_id):
+        comment = get_object_or_404(Comment, id = comment_id)
+        form = CommentForm(instance=comment)
+        return render(request, 'blog/comment_update.html', {'form': form, 'comment': comment})
+    
+    def post(self, request, post_id, comment_id):
+        comment = get_object_or_404(Comment, id=comment_id)
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('post-detail')
+        
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author
+    
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, View):
+        def post(self, request, post_id, comment_id):
+            comment = get_object_or_404(Comment, request, id=comment_id)
+            comment.delete()
+            return redirect('post-detail', pk=post_id)
+
+        def test_func(self):
+            comment = self.get_object()
+            return self.request.user == comment.author
