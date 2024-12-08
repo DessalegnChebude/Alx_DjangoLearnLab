@@ -2,6 +2,8 @@ from django import forms
 from .models import Post, Comment, Tag
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .widgets import TagWidget
+
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -11,16 +13,13 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
         
 class PostForm(forms.ModelForm):
-    tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.all(),
-        widget = forms.CheckboxSelectMultiple,
-        required = False
-    )
+    #  ModelForm for creating/updating blog posts with tagging support.
+
     class Meta:
         models = Post
         fields = ['title', 'content', 'tags']
         widgets = {
-            'tags': forms.CheckboxSelectMultiple(),
+            'tags': TagWidget(),
         }
         
     def __init__(self, *args, **kwargs):
