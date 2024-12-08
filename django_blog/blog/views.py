@@ -151,3 +151,19 @@ class TaggedPostListView(ListView):
     def get_queryset(self):
         tag_name = self.kwargs['tag_name']
         return Post.objects.filter(tags__name__iexact=tag_name)
+    
+class PostByTagListView(ListView):
+    """
+    ListView to display posts filtered by tag.
+    """
+    model = Post
+    template_name = "blog/tagged_posts.html"
+    context_object_name = 'posts'
+    paginate_by = 5  # Optional: paginate results if too many posts exist.
+
+    def get_queryset(self):
+        """
+        Fetch posts that are associated with the specific tag.
+        """
+        slug = self.kwargs.get('tag_slug')
+        return Post.objects.filter(tags__slug=slug)
