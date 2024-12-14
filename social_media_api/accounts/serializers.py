@@ -4,8 +4,10 @@ from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from.models import CustomUser
 
+
 User = get_user_model()  # Get the custom or default User model
-class RegisterSerializer(serializers.ModelSerializer):    
+class RegisterSerializer(serializers.ModelSerializer):
+    username = serializers.CharField()    
     password = serializers.CharField(write_only=True, required=True)
     confirm_password = serializers.CharField(write_only=True, required=True)
 
