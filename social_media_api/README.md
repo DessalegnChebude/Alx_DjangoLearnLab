@@ -47,3 +47,13 @@ A Django REST API for a simple social media application allowing user registrati
 ## Authentication
 Use Token-based authentication for protected endpoints. Include the token in the `Authorization` header as:  
 `Authorization: Token <your_token>`
+
+
+    Posts Endpoints:
+    GET /api/posts/: List all posts.
+    POST /api/posts/: Create a new post.
+    PUT /api/posts/<id>/: Update a post.
+    DELETE /api/posts/<id>/: Delete a post.
+    Comments Endpoints:
+    GET /api/comments/: List all comments.
+    POST /api/comments/: Create a new comment.
