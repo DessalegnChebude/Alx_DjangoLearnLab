@@ -1,26 +1,24 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-# from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from accounts.models import CustomUser
 
 
-
-
-# User = get_user_model()
+User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
     confirm_password = serializers.CharField(write_only=True, required=True)
 
     class Meta:
-        model = CustomUser
+        model = User
         fields = ['username', 'email', 'password', 'confirm_password','bio', 'profile_picture']
         
 
 
     def create(self, validated_data):
-        user = CustomUser.objects.create_user(
+        user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password'],
@@ -32,6 +30,6 @@ class RegisterSerializer(serializers.ModelSerializer):
     
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomUser
+        model = User
         fields = ['id', 'username', 'email', 'bio', 'profile_picture']
 
