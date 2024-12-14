@@ -5,9 +5,8 @@ from rest_framework.authtoken.models import Token
 from accounts.models import CustomUser
 
 
-User = get_user_model()
-
 class RegisterSerializer(serializers.ModelSerializer):
+    User = get_user_model()
     password = serializers.CharField(write_only=True, required=True)
     confirm_password = serializers.CharField(write_only=True, required=True)
 
