@@ -79,3 +79,25 @@ Use Token-based authentication for protected endpoints. Include the token in the
 **Request**:
 ```json
 POST /api/accounts/follow/2/
+
+
+## Social Media API: Likes and Notifications
+
+### Endpoints
+
+#### Likes
+- **Like a Post**: `POST /api/posts/<post_id>/like/`
+- **Unlike a Post**: `POST /api/posts/<post_id>/unlike/`
+
+#### Notifications
+- **View Notifications**: `GET /api/notifications/`
+  - Returns a list of notifications for the authenticated user.
+- **Mark Notifications as Read**: `POST /api/notifications/`
+
+### Examples
+
+#### Like a Post
+**Request**:
+```json
+POST /api/posts/1/like/
+
