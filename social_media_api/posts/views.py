@@ -47,15 +47,16 @@ class FeedView(APIView):
         ]
         return Response(feed_data)
     
-from django.shortcuts import get_object_or_404
+# from django.shortcuts import get_object_or_404
 from .models import Post, Like
+from rest_framework import generics
 from notifications.models import Notification
 
 class LikePostView(APIView):
     permission_classes = [IsAuthenticated]
     
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
         like, created = Like.objects.get_or_create(user=request.user, post=post)
         
         if created:
@@ -75,7 +76,7 @@ class UnlikePostView(APIView):
     permission_classes = [IsAuthenticated]
     
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
         like = Like.objects.filter(user=request.user, post=post)
         
         if like.exists():
