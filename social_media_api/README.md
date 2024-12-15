@@ -57,3 +57,25 @@ Use Token-based authentication for protected endpoints. Include the token in the
     Comments Endpoints:
     GET /api/comments/: List all comments.
     POST /api/comments/: Create a new comment.
+
+    ## Social Media API: Follow and Feed
+
+### Endpoints
+
+#### Follow Management
+- **Follow a User**: `POST /api/accounts/follow/<user_id>/`
+  - Follows the user with the specified `user_id`.
+
+- **Unfollow a User**: `POST /api/accounts/unfollow/<user_id>/`
+  - Unfollows the user with the specified `user_id`.
+
+#### Feed
+- **View Feed**: `GET /api/feed/`
+  - Returns posts from users the authenticated user is following, ordered by creation date.
+
+### Examples
+
+#### Follow a User
+**Request**:
+```json
+POST /api/accounts/follow/2/

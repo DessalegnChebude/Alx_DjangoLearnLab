@@ -5,6 +5,8 @@ from.serializers import RegisterSerializer, ProfileSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 # from django.contrib.auth import get_user_model
 
 # User = get_user_model()  # Get the custom or default User model
@@ -35,5 +37,28 @@ class ProfileView(RetrieveAPIView):
 
 class UserListView(ListAPIView):
     queryset = CustomUser.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     serializer_class = ProfileSerializer
+
+# Class implementation to follow and unfollow users of the social media app.
+class FollowUserView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, user_id):
+        user_to_follow = get_object_or_404(CustomUser, id=user_id)
+        if user_to_follow == request.user:
+            return Response({'error': "You cannot follow yourself."}, status=400)
+        
+        request.user.following.add(user_to_follow)
+        return Response({'message': f"You are now following {user_to_follow.username}."})
+    
+class UnfollowUserView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, user_id):
+        user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
+        if user_to_unfollow == request.user:
+            return Response({"message": "You canot unfollow yourself."}, status=400)
+        
+        request.user.following.remove(user_to_unfollow)
+        return Response({"message": f"You habve unfollowed {user_to_unfollow.username}."})
+    
